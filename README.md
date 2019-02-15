@@ -18,10 +18,12 @@ Command "/name name" will set your name for the dialog context
 
 Command "/image category" will display a random image from the category you selected as variable
 
+Clicking the image opens lightbox
+
 # Syntax
 
 /command variable
 
 # Future updates
 
-In next update will be added new command - /gallery and the lightbox for clicked image
+In next update will be added new command - /gallery
