@@ -24,4 +24,4 @@ Command "/image category" will display a random image from the category you sele
 
 # Future updates
 
-In next update will be added new command - /gallery
+In next update will be added new command - /gallery and the lightbox for clicked image
