@@ -1,7 +1,7 @@
 /*#widget_container {*/
-    /*position: fixed;*/
-    /*right: 50px;*/
-    /*bottom: 100px;*/
+/*position: fixed;*/
+/*right: 50px;*/
+/*bottom: 100px;*/
 /*}*/
 body {
     overflow: hidden;
@@ -24,27 +24,28 @@ body {
     position: absolute;
     bottom: 50px;
     right: 50px;
-    -webkit-box-shadow: -5px -5px 0px 0px rgba(168,98,49,1);
-    -moz-box-shadow: -5px -5px 0px 0px rgba(168,98,49,1);
-    box-shadow: -5px -5px  0px 0px rgba(168,98,49,1);
+    -webkit-box-shadow: -5px -5px 0px 0px rgba(168, 98, 49, 1);
+    -moz-box-shadow: -5px -5px 0px 0px rgba(168, 98, 49, 1);
+    box-shadow: -5px -5px 0px 0px rgba(168, 98, 49, 1);
     transform: scale(0.7) rotate(180deg);
-    transition:transform 1s cubic-bezier(0.3, -0.7, 0.6, 1.7), box-shadow .6s cubic-bezier(0.7, 2.0, 0.9, 1.1) 1s;
+    transition: transform 1s cubic-bezier(0.3, -0.7, 0.6, 1.7), box-shadow .6s cubic-bezier(0.7, 2.0, 0.9, 1.1) 1s;
 }
 
 #widget_button i {
-    text-shadow: 3px 1px rgba(0,0,0,0.3);
+    text-shadow: 3px 1px rgba(0, 0, 0, 0.3);
     transform: scale(1.1) rotate(180deg);
     transition: 1s cubic-bezier(0.3, -0.7, 0.6, 1.7);
 }
 
 #widget_button.clicked {
-    -webkit-box-shadow: 5px 5px 0px 0px rgba(168,98,49,1);
-    -moz-box-shadow: 5px 5px 0px 0px rgba(168,98,49,1);
-    box-shadow: 5px 5px  0px 0px rgba(168,98,49,1);
+    -webkit-box-shadow: 5px 5px 0px 0px rgba(168, 98, 49, 1);
+    -moz-box-shadow: 5px 5px 0px 0px rgba(168, 98, 49, 1);
+    box-shadow: 5px 5px 0px 0px rgba(168, 98, 49, 1);
     transform: scale(1) rotate(0);
-    transition:transform 1s cubic-bezier(0.3, -0.7, 0.6, 1.7), box-shadow .6s cubic-bezier(0.7, 2.0, 0.9, 1.1) 1s;
+    transition: transform 1s cubic-bezier(0.3, -0.7, 0.6, 1.7), box-shadow .6s cubic-bezier(0.7, 2.0, 0.9, 1.1) 1s;
 }
-#widget_button.clicked i{
+
+#widget_button.clicked i {
     transition: 1s cubic-bezier(0.3, -0.7, 0.6, 1.7);
     transform: scale(1) rotate(0);
 }
@@ -58,9 +59,9 @@ body {
     bottom: 120px;
     position: absolute;
     border-radius: 50px 5px 50px 5px;
-    -webkit-box-shadow: inset 0px 0px 6px 1px rgba(110,110,110,1);
-    -moz-box-shadow: inset 0px 0px 6px 1px rgba(110,110,110,1);
-    box-shadow: inset 0px 0px 6px 1px rgba(110,110,110,1);
+    -webkit-box-shadow: inset 0px 0px 6px 1px rgba(110, 110, 110, 1);
+    -moz-box-shadow: inset 0px 0px 6px 1px rgba(110, 110, 110, 1);
+    box-shadow: inset 0px 0px 6px 1px rgba(110, 110, 110, 1);
 }
 
 #widget_body::after {
@@ -76,9 +77,9 @@ body {
     height: 20px;
     transform: rotate(-45deg);
     background: white;
-    -webkit-box-shadow: inset 8px -8px 6px -6px rgba(110,110,110,1);
-    -moz-box-shadow: inset 8px -8px 6px -6px rgba(110,110,110,1);
-    box-shadow: inset 8px -8px 6px -6px rgba(110,110,110,1);
+    -webkit-box-shadow: inset 8px -8px 6px -6px rgba(110, 110, 110, 1);
+    -moz-box-shadow: inset 8px -8px 6px -6px rgba(110, 110, 110, 1);
+    box-shadow: inset 8px -8px 6px -6px rgba(110, 110, 110, 1);
     transition: 1s ease-in;
 }
 
@@ -107,6 +108,7 @@ body {
     height: auto;
     padding: 20px;
     min-height: 60px;
+    z-index: 50;
 }
 
 #widget_input::after {
@@ -130,7 +132,7 @@ body {
     outline: none;
 }
 
-#widget_input:focus::after{
+#widget_input:focus::after {
     width: 100%;
     left: 0;
     transition: .4s ease-in;
@@ -140,7 +142,7 @@ body {
     content: '';
 }
 
-#widget_input:empty::before{
+#widget_input:empty::before {
     content: attr(placeholder);
     display: block; /* For Firefox */
 }
@@ -155,10 +157,35 @@ body {
     display: none;
 }
 
+#widget_queue .widget_message img {
+    width: 100%
+}
+
 #widget_queue {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    z-index: 20;
+    overflow-y: scroll;
+}
+
+#widget_queue::-webkit-scrollbar {
+    width: 8px;
+}
+
+#widget_queue::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#widget_queue::-webkit-scrollbar-thumb {
+    background: #e7873c;
+    border-radius: 4px;
+}
+
+
+#widget_queue::-webkit-scrollbar-thumb:hover {
+    background: #e7653a;
+    transition: .3s ease-in;
 }
 
 #widget_queue .bot_message {

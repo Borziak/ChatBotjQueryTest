@@ -3,8 +3,9 @@ jQuery(document).ready(function($){
     let chat = {
         opened: false,
         active: false,
-        guestName: '',
+        guestName: 'dear Guest',
         firstTime: true,
+        APIkey: '563492ad6f91700001000001bb151c8c07f048768f0c409fc846429b',
         click: function () {
             this.opened ? this.close() : this.open();
         },
@@ -18,6 +19,7 @@ jQuery(document).ready(function($){
             button.draggable('disable');
             this.opened = true;
             this.firstTime ? (this.initialize(), this.firstTime = false) : null;
+            $('#widget_queue').css('height', $('#widget_body').outerHeight() - $('#widget_header').outerHeight() - $('#widget_input').outerHeight() - 24 + 'px');
         },
         close: function () {
             $('#widget_button').removeClass('clicked');
@@ -27,14 +29,18 @@ jQuery(document).ready(function($){
             $('#widget_button').draggable('enable');
         },
         addMessage: function (text, sender) {
-            let options = {direction: ''};
-            sender === 'bot' ? options.direction = 'left' : options.direction = 'right';
-            let newMessage = '<div class="widget_message ' + sender +'_message">' + text +'</div>';
-            $(newMessage).appendTo('#widget_queue').show('drop', options, 600);
-            console.log($(newMessage).text());
-            if (sender === 'guest') {
-                this.createResponse(text);
-            }
+            let self = this;
+            setTimeout(function () {
+                let options = {direction: ''};
+                sender === 'bot' ? options.direction = 'left' : options.direction = 'right';
+                let newMessage = '<div class="widget_message ' + sender + '_message">' + text + '</div>';
+                $(newMessage).appendTo('#widget_queue').show('drop', options, 600);
+                console.log($(newMessage).text());
+                if (sender === 'guest') {
+                    self.createResponse(text);
+                }
+                $('#widget_queue').scrollTop($('#widget_queue').prop("scrollHeight"));
+            }, 600);
         },
         initialize: function () {
             let self = this;
@@ -42,17 +48,65 @@ jQuery(document).ready(function($){
                 self.addMessage('Hello, dear Guest! My name is Mike! Happy to help you!', 'bot');
                 setTimeout(function () {
                     self.addMessage('What is your name?', 'bot');
-                }, 1300);
-            }, 1600);
+                }, 700);
+            }, 1300);
         },
         createResponse: function (text) {
-            let regExp = /^(\/(\w+)(\s(\w+))*)/g;
+            let regExp = /^\/(\w+)\s(\w+)*/g;
             let result = regExp.exec(text);
-            console.log(result);
+            if (!!result) {
+                let intent = result[1];
+                let variable = result[2];
+                switch (intent) {
+                    case 'name':
+                        if (!!variable) {
+                            this.guestName = variable;
+                            this.addMessage('Hello, ' + this.guestName, 'bot');
+                        }
+                        break;
+                    case 'image':
+                        this.showImage(variable);
+                        break;
+                    default:
+                        this.addMessage('You need to use one of the commands. Commands are starting with /', 'bot');
+                }
+            } else {
+                this.addMessage('You need to use one of the commands. Commands are starting with /', 'bot');
+            }
+        },
+        showImage: function (category) {
+            let self = this;
+            let headers = new Headers();
+            let randomImage = Math.floor(Math.random() * 50);
+            headers.append('Authorization', this.APIkey);
+            let myInit = {
+                method: 'GET',
+                headers: headers
+            };
+            let request =  new Request('https://api.pexels.com/v1/search?query=' + category + '+query&per_page=50&page=1', myInit);
+            fetch(request).then(function (response) {
+                return response.json();
+            }).then(function (jsonResponse) {
+                console.log(jsonResponse);
+                // console.log(jsonResponse.photos[randomImage].src.large);
+                if (jsonResponse.total_results > 0) {
+                    self.addMessage('<img src="' + jsonResponse.photos[randomImage].src.large + '"', 'bot');
+                } else {
+                    self.addMessage('Sorry, i was not able to find the images you requested', 'bot');
+                }
+                // $('body').css('background', jsonResponse.photos[randomImage].src.large);
+            });
+        },
+        showGallery: function (category, slidesNumber) {
+            
         }
     };
 
-    $('#widget_input').keydown(function (e) {
+    //  API key
+    //
+
+
+        $('#widget_input').keydown(function (e) {
         if (e.keyCode == 13) {
             e.preventDefault();
             chat.addMessage($(this).text(), 'guest');
